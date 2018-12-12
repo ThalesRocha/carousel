@@ -1,2 +1,3 @@
-# carousel
-A simple carousel that I learn in JavaScript Course by Daniel Tapias
+# Simple Carousel
+
+A simple carousel I build in JavaScript Udemy Course by Daniel Tapias.
