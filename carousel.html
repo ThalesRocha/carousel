@@ -52,7 +52,6 @@
         (function () {
             'use strict';
 
-            //mostrar os botoes navegação e acrescentar listeners
             var $btnPrev = document.querySelector('.carousel__btn--prev');
             var $btnNext = document.querySelector('.carousel__btn--next');
             var $carousel = document.querySelector('.carousel');
@@ -84,7 +83,6 @@
             }
 
             function showNext() {
-                clearInterval(interval);
                 position++;
                 showBanner(position);
             }
@@ -102,8 +100,6 @@
                 width = parseInt(width);
 
                 var newPositionPx = width * position * -1;
-
-                console.log(newPositionPx);
 
                 $carousel_inner.style.transform = 'translateX(' + newPositionPx + 'px)';
 
