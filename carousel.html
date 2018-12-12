@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Carousel</title>
+    <meta charset="utf-8">
+
+    <link href="carousel.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <main class="content">
+
+        <h1 style="text-align: center">Carousel</h1>
+
+        <section class="carousel">
+            <div class="carousel__inner">
+                <div class="carousel__item">
+                    <a href="">
+                        <img src="images/01.jpg" alt="">
+                    </a>
+                </div>
+                <div class="carousel__item">
+                    <a href="">
+                        <img src="images/02.jpg" alt="">
+                    </a>
+                </div>
+                <div class="carousel__item">
+                    <a href="">
+                        <img src="images/03.jpg" alt="">
+                    </a>
+                </div>
+                <div class="carousel__item">
+                    <a href="">
+                        <img src="images/04.jpg" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <button class="carousel__btn carousel__btn--prev"> &lt; </button>
+            <button class="carousel__btn carousel__btn--next"> &gt; </button>
+
+            <ul class="carousel__paginacao"></ul>
+        </section>
+
+    </main>
+
+    <script>
+
+        (function () {
+            'use strict';
+
+            //mostrar os botoes navegação e acrescentar listeners
+            var $btnPrev = document.querySelector('.carousel__btn--prev');
+            var $btnNext = document.querySelector('.carousel__btn--next');
+            var $carousel = document.querySelector('.carousel');
+            var $carousel_inner = document.querySelector(".carousel__inner");
+            var $carousel_itens = document.querySelectorAll(".carousel__item");
+            var $carousel_paginacao = document.querySelector(".carousel__paginacao");
+
+            $btnPrev.style.display = 'block';
+            $btnNext.style.display = 'block';
+            $carousel.style.overflowX = 'hidden';
+
+            $btnPrev.addEventListener('click', showPrev);
+            $btnNext.addEventListener('click', showNext);
+
+            var position = 0;
+            var carouselLength = $carousel_itens.length;
+            setupNav();
+            createBullets();
+
+            function bulletMark() {
+                document.querySelector("li.atual").removeAttribute("class");
+                document.querySelectorAll("ul li")[position].className = "atual";
+            }
+
+            function showPrev() {
+
+                position--;
+                showBanner(position);
+            }
+
+            function showNext() {
+                clearInterval(interval);
+                position++;
+                showBanner(position);
+            }
+
+            function setupNav() {
+                $btnPrev.disabled = position == 0;
+                $btnNext.disabled = position == (carouselLength - 1);
+            }
+
+            function showBanner(position) {
+                clearInterval(interval);
+                setupNav();
+
+                var width = getComputedStyle($carousel_itens[0]).width;
+                width = parseInt(width);
+
+                var newPositionPx = width * position * -1;
+
+                console.log(newPositionPx);
+
+                $carousel_inner.style.transform = 'translateX(' + newPositionPx + 'px)';
+
+                bulletMark();
+
+                setIntervalBanner();
+            };
+
+            function createBullets() {
+
+                for (var i = 0; i < carouselLength; i++) {
+                    addLi(i);
+                }
+
+                function addLi(index) {
+                    var $li = document.createElement("li");
+                    var $ul = document.querySelector("ul");
+                    $ul.appendChild($li);
+
+                    if (index == 0) {
+                        $li.className = "atual";
+                    }
+
+                    $li.addEventListener("click", function () {
+                        position = index;
+                        showBanner(position);
+                    });
+
+                }
+
+            };
+
+            var interval = null;
+
+            function setIntervalBanner() {
+
+                interval = setInterval(function () {
+
+                    position++
+
+                    if (position == 4) {
+                        position = 0;
+                    }
+
+                    showBanner(position)
+
+                }, 5000)
+            }
+
+            //incluir overflow hidden no .carousel
+
+        })()
+
+    </script>
+
+</body>
+
+</html>
